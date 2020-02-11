@@ -13,3 +13,18 @@ A * b
 PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
 ((9+8)*f)
 ( 9 + 8 ) * f
+
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+(((i-UI)))
+i - UI
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+jjk * (i + j)
+jjk * ( i + j )
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+(ko) * (i +I)
+ko
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+(ko) + ( I * K)
+ko + I * K
+
+// SDT isn't allowing some strings. Need to output error.
