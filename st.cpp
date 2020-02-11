@@ -49,5 +49,5 @@ Token SymbolTable::lookUp(string l){
                 return p -> t;
         }
     }
-    return NULL;
+    return Token(0);
 }

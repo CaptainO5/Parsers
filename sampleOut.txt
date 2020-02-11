@@ -1,0 +1,15 @@
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+k-(o)
+k - o
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+(a)+(j)
+a + j
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+((a)+(s))
+a + s
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+(A*b)
+A * b
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+((9+8)*f)
+( 9 + 8 ) * f

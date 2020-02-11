@@ -12,17 +12,23 @@ class Parser{
         bool R();
         bool M();
 
+        void print(){
+            for (int i = 0; op[i].tag != '$' ; i++)
+                cout << op[i].lexeme << " ";
+            cout << '\n';
+        }
+
         void tokenize(Lexer l){
             int i = 0;
             do {
                 init[i++] = l.scan();
-            } while(init[i].tag && i < 114);
+            } while(init[i - 1].tag && i < 114);
             init[i] = Token('$');
         }
 
         bool match(string c){
-            if (look.lexeme != c)
-                return false;
+            if (look.lexeme != c){// cout << look.lexeme << c;
+                return false;}
             look = init[++i_cur];
             return true;
         }
@@ -37,6 +43,9 @@ class Parser{
         int parse(){
             if (! S()){
                 cout << "\nError occured\n";
+            } else{
+                op[o_cur] = Token('$');
+                print();
             }
         }
 };
@@ -49,12 +58,13 @@ bool Parser::S(){
         if (F() && R()) return true;
         else {
             i_cur = i_sv;
+            look = init[i_cur];
             o_cur = o_sv;
-            if (! match(look.lexeme))   cout << "\nError Encountered while parsing\n";
+            if (! match(look.lexeme))   cout << "\nError Encountered while parsing 1"<<look.lexeme<<"\n";
             else {
                 op[o_cur++] = init[i_cur - 1];
                 if (look.lexeme == "+" || look.lexeme == "-") {
-                    if(! match("+") && ! match("-"))   cout << "\nError Encountered while parsing\n";
+                    if(! match("+") && ! match("-"))   cout << "\nError Encountered while parsing 2\n";
                     else {
                         op[o_cur++] = init[i_cur - 1];
                         return S();
@@ -66,22 +76,76 @@ bool Parser::S(){
     else if (look.lexeme == "("){
         i_sv = i_cur;
         o_sv = o_cur;
-        if (F()) R();
+        if (F() && R()) return true;
         else {
             i_cur = i_sv;
+            look = init[i_cur];
             o_cur = o_sv;
-            if (! match("("))   cout << "\nError Encountered while parsing\n";
+            if (! match("("))   cout << "\nError Encountered while parsing 3\n";
             else {
                 S();
-                if (! match(")"))   cout << "\nError Encountered while parsing\n";
+                if (! match(")"))   cout << "\nError Encountered while parsing 4\n";
                 else return M();
             }
         }
-
     }
     return true;
 }
 
 bool Parser::F() {
+    if (look.lexeme == "("){
+        match("(");
+        op[o_cur++] = init[i_cur - 1];
+        if(look.tag == NUM || look.tag == ID){
+            match(look.lexeme);
+            op[o_cur++] = init[i_cur - 1];
+        } else return false;
+        if (match("+") || match("-")){
+            op[o_cur++] = init[i_cur - 1];
+        } else return false;
+        S();
+        if(match(")")){
+            op[o_cur++] = init[i_cur - 1];
+            return true;
+        } else {cout << "Error: Missing closing brace.."; return false;}
+    }
+    else if(look.tag == NUM || look.tag == ID){
+        match(look.lexeme);
+        op[o_cur++] = init[i_cur - 1];
+        return true;
+    } else return false;
+}
 
+bool Parser::R() {
+    int i_sv, o_sv;
+    if (match("*") || match("/")){
+        i_sv = i_cur;
+        o_sv = o_cur;
+        op[o_cur++] = init[i_cur - 1];
+        if(F()) return true;
+        else{
+            i_cur = i_sv;
+            look = init[i_cur];
+            o_cur = o_sv;
+            return S();
+        }
+    } else return false;
+}
+
+bool Parser::M() {
+        if(look.lexeme == "+" || look.lexeme == "-"){
+            if (match("+") || match("-")){
+                op[o_cur++] = init[i_cur - 1];
+                return S();
+            }
+            return false;
+        }
+        // if(look.tag != '$') return false;
+        return true;
+}
+
+int main(){
+    Lexer l;
+    Parser p(l);
+    p.parse();
 }
