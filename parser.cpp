@@ -1,54 +1,40 @@
-#include "st.h"
+#include "parser.h"
 
-class Parser{
-    private:
-        Token init[115];
-        Token look;
-        Token op[115];
-        int i_cur, o_cur;
+void Parser::print(){
+    for (int i = 0; op[i].tag != '$' ; i++)
+        cout << op[i].lexeme << " ";
+    cout << '\n';
+}
 
-        bool S();
-        bool F();
-        bool R();
-        bool M();
+void Parser::tokenize(Lexer l){
+    int i = 0;
+    do {
+        init[i++] = l.scan();
+    } while(init[i - 1].tag && i < 114);
+    init[i] = Token('$');
+}
 
-        void print(){
-            for (int i = 0; op[i].tag != '$' ; i++)
-                cout << op[i].lexeme << " ";
-            cout << '\n';
-        }
+bool Parser::match(string c){
+    if (look.lexeme != c){// cout << look.lexeme << c;
+        return false;}
+    look = init[++i_cur];
+    return true;
+}
 
-        void tokenize(Lexer l){
-            int i = 0;
-            do {
-                init[i++] = l.scan();
-            } while(init[i - 1].tag && i < 114);
-            init[i] = Token('$');
-        }
+Parser::Parser(Lexer l) {
+    tokenize(l);
+    i_cur = o_cur = 0;
+    look = init[i_cur];
+}
 
-        bool match(string c){
-            if (look.lexeme != c){// cout << look.lexeme << c;
-                return false;}
-            look = init[++i_cur];
-            return true;
-        }
-
-    public: 
-        Parser(Lexer l) {
-            tokenize(l);
-            i_cur = o_cur = 0;
-            look = init[i_cur];
-        }
-
-        int parse(){
-            if (! S()){
-                cout << "\nError occured\n";
-            } else{
-                op[o_cur] = Token('$');
-                print();
-            }
-        }
-};
+int Parser::parse(){
+    if (! S()){
+        cout << "\nError occured\n";
+    } else{
+        op[o_cur] = Token('$');
+        print();
+    }
+}
 
 bool Parser::S(){
     int i_sv, o_sv;
@@ -60,7 +46,7 @@ bool Parser::S(){
             i_cur = i_sv;
             look = init[i_cur];
             o_cur = o_sv;
-            if (! match(look.lexeme))   cout << "\nError Encountered while parsing 1"<<look.lexeme<<"\n";
+            if (! match(look.lexeme))   cout << "\nError Encountered while parsing 1\n";
             else {
                 op[o_cur++] = init[i_cur - 1];
                 if (look.lexeme == "+" || look.lexeme == "-") {
