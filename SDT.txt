@@ -1,4 +1,5 @@
-S -> {print id.lexeme} id {print '+'} + S | {print id.lexeme} id {print '-'} - S | (S) M | F R | {print id.lexeme} id
+S -> {print id.lexeme} id {print '+'} + S | {print id.lexeme} id {print '-'} - S | (S) M | F R | {print id.lexeme} id | (T) R
 F -> {print '('} ( {print id.lexeme} id {print '+'} + S {print ')'} ) | {print '('} ( {print id.lexeme} id {print '-'} - S {print ')'} ) | {print id.lexeme} id
 R -> {print '*'} * S | {print '/'} / S | {print '*'} * F | {print '/'} / F 
 M -> {print '+'} + S | {print '-'} - S | epsilon
+T -> (T) | F R | F

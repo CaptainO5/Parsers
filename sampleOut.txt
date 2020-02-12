@@ -27,4 +27,36 @@ PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
 (ko) + ( I * K)
 ko + I * K
 
-// SDT isn't allowing some strings. Need to output error.
+// SDT isn't allowing some strings. Also, Need to output error.
+
+Errors are being displayed..
+
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+(ko)*(i+o)
+
+Error occured { Can't Accept the string from '*' }
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+()*
+
+Error occured { Can't Accept the string from '*' }
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+(dfS)*90
+
+Error occured { Can't Accept the string from '*' }
+
+// TODO: Make it more general 
+
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+k -(o)
+k - o
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+(ko)*(i+k)
+ko * ( i + k )
+
+// MAde general.. Errors aren't handled
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+k -(o)
+k - o
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
+(ko)*(i+k)
+ko * ( i + k )

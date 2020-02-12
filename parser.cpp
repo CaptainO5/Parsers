@@ -28,12 +28,14 @@ Parser::Parser(Lexer l) {
 }
 
 int Parser::parse(){
-    if (! S()){
-        cout << "\nError occured\n";
-    } else{
+    if (S()){
         op[o_cur] = Token('$');
         print();
+        return 0;
     }
+    cout << "\nError occured { Can't parse from \'"<< init[i_cur].lexeme << "\' }\n";
+    print();
+    return 1;
 }
 
 bool Parser::S(){
@@ -69,9 +71,20 @@ bool Parser::S(){
             o_cur = o_sv;
             if (! match("("))   cout << "\nError Encountered while parsing 3\n";
             else {
-                S();
-                if (! match(")"))   cout << "\nError Encountered while parsing 4\n";
-                else return M();
+                i_sv = i_cur;
+                o_sv = o_cur;
+                if (T()) {
+                    if (! match(")")) cout << "\nError Encountered while parsing 6\n";
+                    else if (R()) return true;
+                    else{
+                        i_cur = i_sv;
+                        look = init[i_cur];
+                        o_cur = o_sv;
+                        S();
+                        if (! match(")"))   cout << "\nError Encountered while parsing 4\n";
+                        else return M();
+                    }
+                }
             }
         }
     }
@@ -119,19 +132,27 @@ bool Parser::R() {
 }
 
 bool Parser::M() {
-        if(look.lexeme == "+" || look.lexeme == "-"){
-            if (match("+") || match("-")){
-                op[o_cur++] = init[i_cur - 1];
-                return S();
-            }
-            return false;
+    if(look.lexeme == "+" || look.lexeme == "-"){
+        if (match("+") || match("-")){
+            op[o_cur++] = init[i_cur - 1];
+            return S();
         }
-        // if(look.tag != '$') return false;
-        return true;
+        return false;
+    }
+    //if(look.tag != '$') return false;
+    return true;
 }
 
-int main(){
-    Lexer l;
-    Parser p(l);
-    p.parse();
+bool Parser::T(){
+    if (look.tag == '('){
+        if (! match("(")) cout << "\nError Encountered while parsing 5\n";
+        else T();
+        return match(")");
+    }
+    if (look.tag == NUM || look.tag == ID){
+        if(! F()) return false;
+        R();
+        return true;
+    }
+    return false;
 }

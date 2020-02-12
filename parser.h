@@ -11,6 +11,7 @@ class Parser{
         bool F();
         bool R();
         bool M();
+        bool T();
 
         void print();        
         void tokenize(Lexer);
