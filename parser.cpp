@@ -73,18 +73,16 @@ bool Parser::S(){
             else {
                 i_sv = i_cur;
                 o_sv = o_cur;
-                if (T()) {
-                    if (! match(")")) cout << "\nError Encountered while parsing 6\n";
-                    else if (R()) return true;
+                    if (T() && match(")") && R()) // cout << "\nError Encountered while parsing 6\n";
+                        return true;
                     else{
                         i_cur = i_sv;
                         look = init[i_cur];
                         o_cur = o_sv;
                         S();
                         if (! match(")"))   cout << "\nError Encountered while parsing 4\n";
-                        else return M();
+                        return M();
                     }
-                }
             }
         }
     }

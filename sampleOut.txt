@@ -53,7 +53,7 @@ PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
 (ko)*(i+k)
 ko * ( i + k )
 
-// MAde general.. Errors aren't handled
+// Made general.. Errors aren't handled
 PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
 k -(o)
 k - o
