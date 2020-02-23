@@ -60,3 +60,15 @@ k - o
 PS C:\Users\user\Documents\GitHub\FirstCompiler> ./parse.exe
 (ko)*(i+k)
 ko * ( i + k )
+
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./rbParser.exe
+((ASD*B+d))
+ASD * B + d
+
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./rbParser.exe
+(b-d)*s
+( b - d ) * s
+
+PS C:\Users\user\Documents\GitHub\FirstCompiler> ./rbParser.exe
+(ko) - K*9
+ko - K * 9 
