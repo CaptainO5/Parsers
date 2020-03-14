@@ -3,20 +3,48 @@
 Table::Table() {
     this -> start = 'E';
     this -> G.insert({{'E', "TR"}, {'R', "+TR"}, {'R', "-TR"}, {'R', "e"}, {'T', "FU"}, 
-                        {'U', "*F"}, {'U', "/F"}, {'U', "e"}, {'F', "V^F"}, {'F', "V"}, {'V', "(E)"}, {'V', "i"}});
-    this -> N.insert({{'E', 0}, {'T', 1}, {'R', 2}, {'U', 3}, {'F', 4}, {'V', 5}});
-    this -> T.insert({{'+', 0}, {'(', 1}, {')', 2}, {'*', 3}, {'/', 4}, {'-', 5}, {'$', 6}, {'i', 7}});
+                        {'U', "*F"}, {'U', "/F"}, {'U', "e"}, {'F', "VM"}, {'M', "^VM"},
+                        {'M', "e"}, {'V', "(E)"}, {'V', "i"}});
+    this -> N.insert({{'E', 0}, {'T', 1}, {'R', 2}, {'U', 3}, {'F', 4}, {'V', 5}, {'M', 6}});
+    this -> T.insert({{'+', 0}, {'(', 1}, {')', 2}, {'*', 3}, {'/', 4}, {'-', 5}, {'$', 6}, {'i', 7}, {'^', 8}});
 
-    for (auto& x: this -> G){
-        cout << x.first << " -> " << x.second << endl;
-    }
-
-    uos f = follow('R');
-    for (const char& i : f){
-        cout << i <<" ";
+    for (int i = 0; i < 20; i++){
+        for(int j = 0; j < 20; j++){
+            this -> table[i][j] = this -> G.end();
+        }
     }
 
     fillT();
+
+    // Print Productions
+    // for (auto& x: this -> G){
+    //     cout << x.first << " -> " << x.second << endl;
+    // }
+
+    // Print first and follow sets
+    // cout << "FOLLOW\n";
+    // for (auto i : N){
+    //     uos f = follow(i.first);
+    //     cout << i.first << ": ";
+    //     for (const char& j : f){
+    //         cout << j <<" ";
+    //     }
+    //     cout << "\n";
+    // }
+    // cout << "\nFIRST\n";
+    // for (auto i : N){
+    //     string s = "";
+    //     s += i.first;
+    //     uos f = first(s);
+    //     cout << i.first << ": ";
+    //     for (const char& j : f){
+    //         cout << j <<" ";
+    //     }
+    //     cout << "\n";
+    // }
+    
+    // Print LL(1) parsing table entries
+    //printT();
 }
 
 uos Table::first(string S){
@@ -81,7 +109,38 @@ uos Table::follow(char N){
 }
 
 void Table::fillT(){
-    
+    for (umit it = this -> G.begin(); it != this -> G.end(); it++) {
+        int n = this -> N.find(it -> first) -> second;
+        int t = 0;
+        uos f = first(it -> second);
+           //cout <<"\n"<< it -> first <<" -> "<< it -> second << "\n\t";
+        bool hasE = f.erase('e');
+        for (char i : f) {
+            t = this -> T.find(i) -> second;
+               //cout << i << "\t" << n << "," << t << "\n\t";
+            table[n][t] = it;
+        }
+        if (hasE) {
+            uos f1 = follow(it -> first);
+               //cout << "\nfollow  " << it -> first << "\n\t";
+            for (char i : f1){
+                t = this -> T.find(i) -> second;
+                   //cout << i << "\t" << n << "," << t << "\n\t";
+                table[n][t] = it;
+            }
+        }
+    }
+}
+
+void Table::printT(){
+    for(int i = 0; i < 7; i++){
+        for (int j = 0; j < 9; j++){
+            umit e = this -> table[i][j];
+            if(e != this->G.end())
+                cout << e -> first << " -> " << e -> second << "\t\t";
+        }
+        cout << endl;
+    }
 }
 
 int main(){

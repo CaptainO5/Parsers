@@ -20,5 +20,7 @@ class Table {
 
         // LL(1) parsing table
         umit table[20][20];
+
+        void printT();
         Table();
 };
