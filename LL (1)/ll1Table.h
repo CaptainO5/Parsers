@@ -6,6 +6,16 @@ using namespace std;
 typedef unordered_multimap<char, string>::iterator umit; 
 typedef unordered_set<char> uos;
 
+class Grammar{
+    public:
+        // Grammar
+        unordered_multimap <char, string> P;
+        char S;
+        unordered_map<char, int> N;
+        unordered_map<char, int> T;
+        Grammar();
+};
+
 class Table {
     private:
         uos first(string);
@@ -23,4 +33,5 @@ class Table {
 
         void printT();
         Table();
+        Table(Grammar);
 };

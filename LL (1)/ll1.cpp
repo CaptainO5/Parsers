@@ -1,5 +1,9 @@
 #include "ll1Table.h"
 
+Grammar::Grammar(){
+    // For future abstraction
+}
+
 Table::Table() {
     this -> start = 'E';
     this -> G.insert({{'E', "TR"}, {'R', "+TR"}, {'R', "-TR"}, {'R', "e"}, {'T', "FU"}, 
@@ -45,6 +49,20 @@ Table::Table() {
     
     // Print LL(1) parsing table entries
     //printT();
+}
+
+Table::Table(Grammar G) {
+    this -> G = G.P;
+    this -> N = G.N;
+    this -> T = G.T;
+    this -> start = G.S;
+
+    for (int i = 0; i < 20; i++){
+        for(int j = 0; j < 20; j++){
+            this -> table[i][j] = this -> G.end();
+        }
+    }
+    fillT();
 }
 
 uos Table::first(string S){
@@ -138,11 +156,9 @@ void Table::printT(){
             umit e = this -> table[i][j];
             if(e != this->G.end())
                 cout << e -> first << " -> " << e -> second << "\t\t";
+            else
+                cout << "\t\t";
         }
         cout << endl;
     }
-}
-
-int main(){
-    Table t;
 }
