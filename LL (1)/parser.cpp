@@ -4,8 +4,7 @@ Parser::Parser(){
     S.push('$');
     S.push(t.start);
     cout << "Enter a string to Parse: ";
-    getline(cin, input);
-    input += "$";
+    ip = l.scan();
 }
 
 Parser::Parser(Table t){
@@ -16,23 +15,21 @@ Parser::Parser(Table t){
 Tree::Tree(){}
 
 Tree Parser::parse(){
-    int len = input.length();
-    int i = 0;
     Tree pt;
-    while (i < len) {
-        while (input[i] != S.top()) {
+    while (ip != EOF) {
+        while (ip != S.top()) {
             unordered_map<char, int>::iterator n_it = t.N.find(S.top());
-            unordered_map<char, int>::iterator t_it = t.T.find(input[i]);
+            unordered_map<char, int>::iterator t_it = t.T.find(ip);
             if (n_it == t.N.end() || t_it == t.T.end()){
-                cout << "\nError Parsing.. inut token: " << input[i] << ", top of stack: " << S.top() << "\n";
+                cout << "\nError Parsing.. inut token: " << ip << ", top of stack: " << S.top() << "\n";
                 return pt;
             }
             umit p = t.table[n_it -> second][t_it -> second];
             if (p == t.G.end()){
-                cout << "\nError Parsing.. inut token: " << input[i] << "\n";
+                cout << "\nError Parsing.. inut token: " << ip << "\n";
                 return pt;
             }
-            cout << "<" << S.top() << ", " << input[i] << "> " <<"\n";
+            cout << "<" << S.top() << ", " << ip << "> " <<"\n";
             cout << p -> first << " -> " << p -> second << "\n";
             string r = p -> second;
             S.pop();
@@ -47,10 +44,10 @@ Tree Parser::parse(){
             }
             cout << "\n\n";
         }
-        cout << "<" << S.top() << ", " << input[i] << ">";
+        cout << "<" << S.top() << ", " << ip << ">";
         S.pop();
         cout << "\tpopped\n\n";
-        i++;
+        ip = l.scan();
     }
 }
 
