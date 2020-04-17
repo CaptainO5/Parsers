@@ -37,11 +37,38 @@ unordered_set<string> closure(unordered_set<string> I, Grammar G){
     }
 }
 
+unordered_set<string> GOTO(unordered_set<string> I, char X, Grammar G){
+    unordered_set<string> temp;
+    for (string i: I){
+        int pos;
+        do {
+            pos = i.find(X, 2);
+        } while (pos != i.npos && i[pos-1] !='.');
+        if (pos!= string::npos && i[pos-1] == '.'){
+            i.erase(pos-1, 1);
+            i.insert(pos, ".");
+            temp.insert(i);
+        }
+    }
+    return closure(temp, G);
+}
+
+vector<unordered_set<string>> items(Grammar G){
+
+}
+
 int main(){
     Grammar G;
     unordered_set<string> I = {"S' .S"};
-    I = closure(I, G);
-    for (string i: I){
-        cout << i << endl;
+    try {
+        I = closure(I, G);
+        I = GOTO(I, '*', G);
+        for (string i: I){
+            i.insert(2, "-> ");
+            cout << i  << endl;
+        }
+    } catch (char const *m){
+        cout << m;
     }
+    return 0;
 }
