@@ -40,9 +40,9 @@ unordered_set<string> closure(unordered_set<string> I, Grammar G){
 unordered_set<string> GOTO(unordered_set<string> I, char X, Grammar G){
     unordered_set<string> temp;
     for (string i: I){
-        int pos;
+        int pos = 0;
         do {
-            pos = i.find(X, 2);
+            pos = i.find(X, 2+pos);
         } while (pos != i.npos && i[pos-1] !='.');
         if (pos!= string::npos && i[pos-1] == '.'){
             i.erase(pos-1, 1);
@@ -62,10 +62,27 @@ int main(){
     unordered_set<string> I = {"S' .S"};
     try {
         I = closure(I, G);
-        I = GOTO(I, '*', G);
-        for (string i: I){
-            i.insert(2, "-> ");
-            cout << i  << endl;
+        // for (string i: I){
+        //         i.insert(2, "-> ");
+        //         cout << i  << endl;
+        //     }
+        for (auto x: G.N){
+            cout << x.first << endl;
+            unordered_set<string> J = GOTO(I, x.first, G);
+            for (string i: J){
+                i.insert(2, "-> ");
+                cout << i  << endl;
+            }
+            cout << endl;
+        }
+        for (auto x: G.T){
+            cout << x.first << endl;
+            unordered_set<string> J = GOTO(I, x.first, G);
+            for (string i: J){
+                i.insert(2, "-> ");
+                cout << i  << endl;
+            }
+            cout << endl;
         }
     } catch (char const *m){
         cout << m;
