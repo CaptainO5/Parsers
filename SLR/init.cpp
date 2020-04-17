@@ -10,7 +10,3 @@ Grammar::Grammar(){
 Grammar::Grammar(string file){
     // TODO: load grammar from a file
 }
-
-int main(int argc, char *argv[]){
-    
-}
