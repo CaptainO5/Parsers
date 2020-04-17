@@ -53,32 +53,62 @@ unordered_set<string> GOTO(unordered_set<string> I, char X, Grammar G){
     return closure(temp, G);
 }
 
-vector<unordered_set<string>> items(Grammar G){
+bool inIt(vector<unordered_set<string>> Sets, string item){
+    for (auto I: Sets){
+        if (I.find(item) != I.end())
+            return true;
+    }
+    return false;
+}
 
+vector<unordered_set<string>> items(Grammar G){
+    vector<unordered_set<string>> Sets = {closure({"S' .S"}, G)};
+    while(true){
+        vector<unordered_set<string>> temp = Sets;
+        for (auto I: Sets){
+            for (auto x: G.N){
+                cout << x.first << endl;
+                unordered_set<string> J = GOTO(I, x.first, G);
+                for (string i: I){
+                    i.insert(2, "-> ");
+                    cout << i  << endl;
+                }
+                cout << endl;
+                if (!inIt(temp, *J.begin())){
+                    temp.push_back(J);
+                    cout << "True";
+                }
+            }
+            for (auto x: G.T){
+                cout << x.first << endl;
+                unordered_set<string> J = GOTO(I, x.first, G);
+                for (string i: I){
+                    i.insert(2, "-> ");
+                    cout << i  << endl;
+                }
+                cout << endl;
+                if (!inIt(temp, *J.begin()))
+                    temp.push_back(J);
+            }
+        }
+        int prev = Sets.size();
+        Sets = temp;
+        int aft = Sets.size();
+        if (prev = aft){
+            return Sets;
+            cout << "RETURN";
+        }
+    }
+    
 }
 
 int main(){
     Grammar G;
     unordered_set<string> I = {"S' .S"};
     try {
-        I = closure(I, G);
-        // for (string i: I){
-        //         i.insert(2, "-> ");
-        //         cout << i  << endl;
-        //     }
-        for (auto x: G.N){
-            cout << x.first << endl;
-            unordered_set<string> J = GOTO(I, x.first, G);
-            for (string i: J){
-                i.insert(2, "-> ");
-                cout << i  << endl;
-            }
-            cout << endl;
-        }
-        for (auto x: G.T){
-            cout << x.first << endl;
-            unordered_set<string> J = GOTO(I, x.first, G);
-            for (string i: J){
+        vector<unordered_set<string>> V = items(G);
+        for (auto I: V){
+            for (string i: I){
                 i.insert(2, "-> ");
                 cout << i  << endl;
             }
