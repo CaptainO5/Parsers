@@ -3,6 +3,9 @@
 #include <vector>
 
 unordered_set<string> closure(unordered_set<string> I, Grammar G){
+    if (I.size() == 0)
+        return I;
+    
     unordered_set<string> J = I;
     bool isAdded[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     while(true){
@@ -50,12 +53,16 @@ unordered_set<string> GOTO(unordered_set<string> I, char X, Grammar G){
             temp.insert(i);
         }
     }
+
+    if(temp.size() == 0)
+        return temp;
+
     return closure(temp, G);
 }
 
-bool inIt(vector<unordered_set<string>> Sets, string item){
+bool inIt(vector<unordered_set<string>> Sets, unordered_set<string> J){
     for (auto I: Sets){
-        if (I.find(item) != I.end())
+        if (I == J)
             return true;
     }
     return false;
@@ -63,48 +70,31 @@ bool inIt(vector<unordered_set<string>> Sets, string item){
 
 vector<unordered_set<string>> items(Grammar G){
     vector<unordered_set<string>> Sets = {closure({"S' .S"}, G)};
+    int prev = 0;
     while(true){
-        vector<unordered_set<string>> temp = Sets;
-        for (auto I: Sets){
+        int len = Sets.size();
+        for (int l = prev; l < len; l++){
+            unordered_set<string> I = Sets[l];
             for (auto x: G.N){
-                cout << x.first << endl;
                 unordered_set<string> J = GOTO(I, x.first, G);
-                for (string i: I){
-                    i.insert(2, "-> ");
-                    cout << i  << endl;
-                }
-                cout << endl;
-                if (!inIt(temp, *J.begin())){
-                    temp.push_back(J);
-                    cout << "True";
-                }
+                if (J.size() != 0 && !inIt(Sets, J))
+                    Sets.push_back(J);
             }
             for (auto x: G.T){
-                cout << x.first << endl;
                 unordered_set<string> J = GOTO(I, x.first, G);
-                for (string i: I){
-                    i.insert(2, "-> ");
-                    cout << i  << endl;
-                }
-                cout << endl;
-                if (!inIt(temp, *J.begin()))
-                    temp.push_back(J);
+                if (J.size() != 0 && !inIt(Sets, J))
+                    Sets.push_back(J);                    
             }
         }
-        int prev = Sets.size();
-        Sets = temp;
-        int aft = Sets.size();
-        if (prev = aft){
+        prev = len;
+        if (len == Sets.size())
             return Sets;
-            cout << "RETURN";
-        }
     }
     
 }
 
 int main(){
     Grammar G;
-    unordered_set<string> I = {"S' .S"};
     try {
         vector<unordered_set<string>> V = items(G);
         for (auto I: V){
@@ -114,6 +104,7 @@ int main(){
             }
             cout << endl;
         }
+        cout << V.size();
     } catch (char const *m){
         cout << m;
     }
