@@ -104,11 +104,12 @@ int main(){
     Grammar G;
     try {
         unordered_set<string> I = closure({"S' .S $"}, G);
-        for (string i: I){
-            cout << i << endl;
+        for (auto x: G.T){
+            unordered_set<string> J = GOTO(I, x.first, G);
+            for (string i: J){
+                cout << i << endl;
+            } cout << endl;
         }
-
-
         // vector<unordered_set<string>> V = items(G);
         // int id = 0;
         // for (auto I: V){
