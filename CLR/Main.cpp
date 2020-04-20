@@ -106,7 +106,10 @@ int main(){
 
     if (conflict)
         cout << "\n*** THE GRAMMAR IS NOT CLR(1) ***\n\n";
-
-    Parser p;
-    p.parse(Action, Goto, G);
+    else{
+        Parser p;
+        p.parse(Action, Goto, G);
+    }
+    
+    return 0;
 }
