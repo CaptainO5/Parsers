@@ -1,6 +1,8 @@
 #include <iostream>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
+#include <ctype.h>
 using namespace std;
 
 typedef unordered_multimap<char, string>::iterator umit; 
@@ -16,3 +18,11 @@ class Grammar{
         Grammar();
         Grammar(string file);
 };
+
+uos FIRST(string S, Grammar& G);
+uos FOLLOW(char N, Grammar& G);
+
+unordered_set<string> closure(unordered_set<string> I, Grammar& G);
+unordered_set<string> GOTO(unordered_set<string> I, char X, Grammar& G);
+bool inIt(vector<unordered_set<string>> Sets, unordered_set<string> J);
+vector<unordered_set<string>> items(Grammar& G);

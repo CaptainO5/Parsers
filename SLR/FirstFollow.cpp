@@ -1,6 +1,6 @@
-#include "G.h"
+#include "SLR.h"
 
-uos FIRST(string S, Grammar G){
+uos FIRST(string S, Grammar& G){
     int i = 0, len = S.length();
     bool cap = true, hasE = true;
     uos fs;
@@ -32,7 +32,7 @@ uos FIRST(string S, Grammar G){
     return fs;
 }
 
-uos FOLLOW(char N, Grammar G){
+uos FOLLOW(char N, Grammar& G){
     uos fs;
 
     if (N == G.S)

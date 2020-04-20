@@ -1,8 +1,6 @@
-#include "G.h"
-#include <ctype.h>
-#include <vector>
+#include "SLR.h"
 
-unordered_set<string> closure(unordered_set<string> I, Grammar G){
+unordered_set<string> closure(unordered_set<string> I, Grammar& G){
     if (I.size() == 0)
         return I;
     
@@ -40,7 +38,7 @@ unordered_set<string> closure(unordered_set<string> I, Grammar G){
     }
 }
 
-unordered_set<string> GOTO(unordered_set<string> I, char X, Grammar G){
+unordered_set<string> GOTO(unordered_set<string> I, char X, Grammar& G){
     unordered_set<string> temp;
     for (string i: I){
         int pos = 0;
@@ -68,7 +66,7 @@ bool inIt(vector<unordered_set<string>> Sets, unordered_set<string> J){
     return false;
 }
 
-vector<unordered_set<string>> items(Grammar G){
+vector<unordered_set<string>> items(Grammar& G){
     string i = "' .";
     i.insert(i.begin(), G.S);
     i.insert(i.end(), G.S);
