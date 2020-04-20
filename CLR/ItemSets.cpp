@@ -98,21 +98,21 @@ vector<unordered_set<string>> items(Grammar& G){
     
 }
 
-int main(){
-    Grammar G;
-    try {
-        vector<unordered_set<string>> V = items(G);
-        int id = 0;
-        for (auto I: V){
-            cout << "I" << id++ << endl;
-            for (string i: I){
-                i.insert(2, "-> ");
-                cout << i  << endl;
-            }
-            cout << endl;
-        }
-    } catch (char const *m){
-        cout << m;
-    }
-    return 0;
-}
+// int main(){
+//     Grammar G;
+//     try {
+//         vector<unordered_set<string>> V = items(G);
+//         int id = 0;
+//         for (auto I: V){
+//             cout << "I" << id++ << endl;
+//             for (string i: I){
+//                 i.insert(2, "-> ");
+//                 cout << i  << endl;
+//             }
+//             cout << endl;
+//         }
+//     } catch (char const *m){
+//         cout << m;
+//     }
+//     return 0;
+// }
