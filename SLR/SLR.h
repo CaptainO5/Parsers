@@ -20,9 +20,9 @@ class Grammar{
 };
 
 uos FIRST(string S, Grammar& G);
-uos FOLLOW(char N, Grammar& G);
+uos FOLLOW(char N, Grammar& G, char N0=' ');
 
 unordered_set<string> closure(unordered_set<string> I, Grammar& G);
 unordered_set<string> GOTO(unordered_set<string> I, char X, Grammar& G);
-bool inIt(vector<unordered_set<string>> Sets, unordered_set<string> J);
+int inIt(vector<unordered_set<string>> Sets, unordered_set<string> J);
 vector<unordered_set<string>> items(Grammar& G);

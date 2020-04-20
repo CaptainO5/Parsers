@@ -32,7 +32,7 @@ uos FIRST(string S, Grammar& G){
     return fs;
 }
 
-uos FOLLOW(char N, Grammar& G){
+uos FOLLOW(char N, Grammar& G, char N0){
     uos fs;
 
     if (N == G.S)
@@ -49,8 +49,8 @@ uos FOLLOW(char N, Grammar& G){
                 hasE = f.erase('e');
                 fs.insert(f.begin(), f.end());
             }
-            if ((hasE || pos + 1 == len) && it -> first != N) {
-                uos f = FOLLOW(it -> first, G);
+            if ((hasE || pos + 1 == len) && it -> first != N && it -> first != N0) {
+                uos f = FOLLOW(it -> first, G, N);
                 fs.insert(f.begin(), f.end());
             }
             s = s.substr(pos + 1);
