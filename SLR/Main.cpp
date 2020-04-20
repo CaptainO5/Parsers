@@ -1,4 +1,4 @@
-#include "SLR.h"
+#include "Parser.h"
 
 int main(){
     Grammar G;
@@ -103,4 +103,8 @@ int main(){
 
     if (conflict)
         cout << "\n*** THE GRAMMAR IS NOT SLR(1) ***\n\n";
+    else{
+        Parser p;
+        p.parse(Action, Goto, G);
+    }
 }
