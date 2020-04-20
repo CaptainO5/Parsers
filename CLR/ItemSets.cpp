@@ -5,7 +5,6 @@ unordered_set<string> closure(unordered_set<string> I, Grammar& G){
         return I;
     
     unordered_set<string> J = I;
-    bool isAdded[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     while(true){
         unordered_set<string> temp = J;
         for (string i: J){
@@ -19,19 +18,17 @@ unordered_set<string> closure(unordered_set<string> I, Grammar& G){
                     throw "Invalid item";
                 
                 int NT = G.N.find(i[pos+1]) -> second;
-                if(!isAdded[NT]){
-                    pair<umit, umit> it = G.P.equal_range(i[pos+1]);
-                    for (umit it1 = it.first; it1 != it.second; it1++){
-                        for (char b: FIRST(i.substr(pos+2, i.size()-pos-4) + *(i.end()-1), G)){
-                            string item = " ." + it1 -> second;
-                            item.insert(item.begin(), it1 -> first);
-                            item += " ";
-                            item.insert(item.end(), b);
-                            temp.insert(item);
-                        }
+
+                pair<umit, umit> it = G.P.equal_range(i[pos+1]);
+                for (umit it1 = it.first; it1 != it.second; it1++){
+                    for (char b: FIRST(i.substr(pos+2, i.size()-pos-4) + *(i.end()-1), G)){
+                        string item = " ." + it1 -> second;
+                        item.insert(item.begin(), it1 -> first);
+                        item += " ";
+                        item.insert(item.end(), b);
+                        temp.insert(item);
                     }
                 }
-                isAdded[NT] = true;
             }
         }
         int prev = J.size();
@@ -75,6 +72,7 @@ vector<unordered_set<string>> items(Grammar& G){
     string i = "' .";
     i.insert(i.begin(), G.S);
     i.insert(i.end(), G.S);
+    i += " $";
 
     vector<unordered_set<string>> Sets = {closure({i}, G)};
     int prev = 0;
@@ -103,23 +101,16 @@ vector<unordered_set<string>> items(Grammar& G){
 int main(){
     Grammar G;
     try {
-        unordered_set<string> I = closure({"S' .S $"}, G);
-        for (auto x: G.T){
-            unordered_set<string> J = GOTO(I, x.first, G);
-            for (string i: J){
-                cout << i << endl;
-            } cout << endl;
+        vector<unordered_set<string>> V = items(G);
+        int id = 0;
+        for (auto I: V){
+            cout << "I" << id++ << endl;
+            for (string i: I){
+                i.insert(2, "-> ");
+                cout << i  << endl;
+            }
+            cout << endl;
         }
-        // vector<unordered_set<string>> V = items(G);
-        // int id = 0;
-        // for (auto I: V){
-        //     cout << "I" << id++ << endl;
-        //     for (string i: I){
-        //         i.insert(2, "-> ");
-        //         cout << i  << endl;
-        //     }
-        //     cout << endl;
-        // }
     } catch (char const *m){
         cout << m;
     }
