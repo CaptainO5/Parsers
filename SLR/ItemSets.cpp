@@ -69,7 +69,11 @@ bool inIt(vector<unordered_set<string>> Sets, unordered_set<string> J){
 }
 
 vector<unordered_set<string>> items(Grammar G){
-    vector<unordered_set<string>> Sets = {closure({"S' .S"}, G)};
+    string i = "' .";
+    i.insert(i.begin(), G.S);
+    i.insert(i.end(), G.S);
+
+    vector<unordered_set<string>> Sets = {closure({i}, G)};
     int prev = 0;
     while(true){
         int len = Sets.size();
@@ -97,14 +101,15 @@ int main(){
     Grammar G;
     try {
         vector<unordered_set<string>> V = items(G);
+        int id = 0;
         for (auto I: V){
+            cout << "I" << id++ << endl;
             for (string i: I){
                 i.insert(2, "-> ");
                 cout << i  << endl;
             }
             cout << endl;
         }
-        cout << V.size();
     } catch (char const *m){
         cout << m;
     }
