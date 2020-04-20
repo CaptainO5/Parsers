@@ -58,12 +58,13 @@ unordered_set<string> GOTO(unordered_set<string> I, char X, Grammar& G){
     return closure(temp, G);
 }
 
-bool inIt(vector<unordered_set<string>> Sets, unordered_set<string> J){
-    for (auto I: Sets){
-        if (I == J)
-            return true;
+int inIt(vector<unordered_set<string>> Sets, unordered_set<string> I){
+    int len = Sets.size();
+    for (int i=0; i <  len; i++){
+        if (Sets[i] == I)
+            return i;
     }
-    return false;
+    return -1;
 }
 
 vector<unordered_set<string>> items(Grammar& G){
@@ -79,12 +80,12 @@ vector<unordered_set<string>> items(Grammar& G){
             unordered_set<string> I = Sets[l];
             for (auto x: G.N){
                 unordered_set<string> J = GOTO(I, x.first, G);
-                if (J.size() != 0 && !inIt(Sets, J))
+                if (J.size() != 0 && inIt(Sets, J) == -1)
                     Sets.push_back(J);
             }
             for (auto x: G.T){
                 unordered_set<string> J = GOTO(I, x.first, G);
-                if (J.size() != 0 && !inIt(Sets, J))
+                if (J.size() != 0 && inIt(Sets, J) == -1)
                     Sets.push_back(J);                    
             }
         }
@@ -95,21 +96,21 @@ vector<unordered_set<string>> items(Grammar& G){
     
 }
 
-int main(){
-    Grammar G;
-    try {
-        vector<unordered_set<string>> V = items(G);
-        int id = 0;
-        for (auto I: V){
-            cout << "I" << id++ << endl;
-            for (string i: I){
-                i.insert(2, "-> ");
-                cout << i  << endl;
-            }
-            cout << endl;
-        }
-    } catch (char const *m){
-        cout << m;
-    }
-    return 0;
-}
+// int main(){
+//     Grammar G;
+//     try {
+//         vector<unordered_set<string>> V = items(G);
+//         int id = 0;
+//         for (auto I: V){
+//             cout << "I" << id++ << endl;
+//             for (string i: I){
+//                 i.insert(2, "-> ");
+//                 cout << i  << endl;
+//             }
+//             cout << endl;
+//         }
+//     } catch (char const *m){
+//         cout << m;
+//     }
+//     return 0;
+// }

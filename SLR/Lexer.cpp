@@ -3,48 +3,22 @@
 Lexer::Lexer(){
     las =' ';
     line = 1;
+    getline(cin, ip);
+    ip += "$";
+    i = 0;
 }
 
 void Lexer::readch(){
-    cin.get(las);
+    this -> las = ip[this->i++];
 }
 
 char Lexer::scan(){
     // Skip white spaces
-    for (;;readch()) {
-        if (las == ' ' || las == '\t') continue; 
-        else if(las == '\n') {line++; return '$';}
+    while(true){
+        readch();
+        if (this->las == ' ' || this->las == '\t') continue; 
+        else if(this->las == '\n') return '$';
         else break;   
     }
-
-    switch(las) {
-        case '+':
-        case '-':
-        case '*':
-        case '/':
-        case '(':
-        case ')':
-        case '^':
-        case '$':
-            char temp = las; readch(); return temp;
-    }
-
-    string l = "";
-    if (isdigit(las)){
-        do{
-            l += las;
-            readch();
-        } while(isdigit(las));
-        return 'i';
-    }
-
-    if(isalpha(las)){
-        do{
-            l += las;
-            readch();
-        } while(isalnum(las));
-        return 'i';
-    }
-
-    return 0;
+    return this -> las;
 }

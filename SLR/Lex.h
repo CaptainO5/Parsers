@@ -1,11 +1,12 @@
 #include "SLR.h"
 
 class Lexer{
-    private:
-        char las;
-        void readch();
+    char las;
+    string ip;
     public:
+        int i;
         int line;
         Lexer();
         char scan();
+        void readch();
 };
