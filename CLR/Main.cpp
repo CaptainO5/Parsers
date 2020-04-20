@@ -14,6 +14,7 @@ int main(){
         cout << "I" << id++ << endl;
         for (string i: I){
             i.insert(2, "-> ");
+            i.insert(i.end()-2, ',');
             cout << i  << endl;
         }
         cout << endl;
@@ -104,5 +105,5 @@ int main(){
     cout << "---\n";
 
     if (conflict)
-        cout << "\n*** THE GRAMMAR IS NOT SLR(1) ***\n\n";
+        cout << "\n*** THE GRAMMAR IS NOT CLR(1) ***\n\n";
 }
