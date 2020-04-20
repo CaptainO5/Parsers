@@ -4,8 +4,8 @@ int main(){
     Grammar G;
     vector<unordered_set<string>> Items = items(G);
     int icount = Items.size(), t = G.T.size(), n = G.N.size();
-    string Action[icount][t];
-    int Goto[icount][n];
+    string Action[icount][10];
+    int Goto[icount][10];
     bool conflict = false;
 
     int id = 0;
@@ -103,8 +103,9 @@ int main(){
 
     if (conflict)
         cout << "\n*** THE GRAMMAR IS NOT SLR(1) ***\n\n";
-    else{
+    //else{
         Parser p;
         p.parse(Action, Goto, G);
-    }
+    //}
+    return 0;
 }
