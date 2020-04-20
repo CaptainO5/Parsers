@@ -1,4 +1,4 @@
-#include "SLR.h"
+#include "CLR.h"
 
 Grammar::Grammar(){
     this -> S = 'S';

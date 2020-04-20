@@ -1,4 +1,4 @@
-#include "SLR.h"
+#include "CLR.h"
 
 uos FIRST(string S, Grammar& G){
     int i = 0, len = S.length();

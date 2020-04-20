@@ -1,4 +1,4 @@
-#include "SLR.h"
+#include "CLR.h"
 
 unordered_set<string> closure(unordered_set<string> I, Grammar& G){
     if (I.size() == 0)
@@ -22,9 +22,13 @@ unordered_set<string> closure(unordered_set<string> I, Grammar& G){
                 if(!isAdded[NT]){
                     pair<umit, umit> it = G.P.equal_range(i[pos+1]);
                     for (umit it1 = it.first; it1 != it.second; it1++){
-                        string item = " ." + it1 -> second;
-                        item.insert(item.begin(), it1 -> first);
-                        temp.insert(item);
+                        for (char b: FIRST(i.substr(pos+2, i.size()-pos-4) + *(i.end()-1), G)){
+                            string item = " ." + it1 -> second;
+                            item.insert(item.begin(), it1 -> first);
+                            item += " ";
+                            item.insert(item.end(), b);
+                            temp.insert(item);
+                        }
                     }
                 }
                 isAdded[NT] = true;
@@ -96,21 +100,27 @@ vector<unordered_set<string>> items(Grammar& G){
     
 }
 
-// int main(){
-//     Grammar G;
-//     try {
-//         vector<unordered_set<string>> V = items(G);
-//         int id = 0;
-//         for (auto I: V){
-//             cout << "I" << id++ << endl;
-//             for (string i: I){
-//                 i.insert(2, "-> ");
-//                 cout << i  << endl;
-//             }
-//             cout << endl;
-//         }
-//     } catch (char const *m){
-//         cout << m;
-//     }
-//     return 0;
-// }
+int main(){
+    Grammar G;
+    try {
+        unordered_set<string> I = closure({"S' .S $"}, G);
+        for (string i: I){
+            cout << i << endl;
+        }
+
+
+        // vector<unordered_set<string>> V = items(G);
+        // int id = 0;
+        // for (auto I: V){
+        //     cout << "I" << id++ << endl;
+        //     for (string i: I){
+        //         i.insert(2, "-> ");
+        //         cout << i  << endl;
+        //     }
+        //     cout << endl;
+        // }
+    } catch (char const *m){
+        cout << m;
+    }
+    return 0;
+}
