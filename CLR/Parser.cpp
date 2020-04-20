@@ -10,6 +10,7 @@ void Parser::parse(string Action[][10], int Goto[][10], Grammar& G){
     char ip = l.scan();
     while (true) {
         string a = Action[S.top()][G.T.find(ip) -> second];
+        cout << S.top() << ", " << ip << ", ACTION: " << a << endl;
         if (a[0] == 's'){
             S.push(a[1] - '0');
             ip = l.scan();
@@ -30,6 +31,6 @@ void Parser::parse(string Action[][10], int Goto[][10], Grammar& G){
             cout << temp.top() << "  ";
             temp.pop();
         } 
-        cout << endl;
+        cout << "\n\n";
     }
 }
